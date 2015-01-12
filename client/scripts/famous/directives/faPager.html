@@ -1,0 +1,11 @@
+<fa-modifier fa-size="[30*ctrl.numSlides().length,20]" fa-align="[0.5,1]" fa-origin="[0.5,1]" fa-translate="[0,-50]">
+    <fa-sequential-layout fa-options="{direction: 0}">
+        <fa-modifier ng-repeat="slide in ctrl.numSlides() track by $index" fa-size="[30,20]" fa-opacity="ctrl.markerOpacity(ctrl.distance($index))">
+            <fa-modifier fa-align="[0.5,0.5]" fa-origin="[0.5,0.5]" fa-scale="ctrl.markerScale(ctrl.distance($index))">
+                <fa-surface class="text-center" ng-click="ctrl.setActivePage($index)" fa-z-index="3">
+                    <i class="icon ion-record {{ctrl.color}}"></i>
+                </fa-surface>
+            </fa-modifier>
+        </fa-modifier>
+    </fa-sequential-layout>
+</fa-modifier>

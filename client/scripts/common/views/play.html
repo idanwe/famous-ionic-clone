@@ -1,0 +1,43 @@
+
+<!-- <fa-scroll-view fa-options="{direction:0, paginated:true}" fa-pipe-from="vm.eventHandler">
+    <fa-surface fa-background-color="'red'" fa-pipe-to="vm.eventHandler">{{vm.message}}</fa-surface>
+    <fa-surface fa-background-color="'green'" fa-pipe-to="vm.eventHandler">{{vm.message}}</fa-surface>
+
+</fa-scroll-view> -->
+
+<fa-scroll-view fa-options="{direction:0, paginated:true}" fa-pipe-from="vm.eventHandler">
+    <xfa-slide>
+        <fa-modifier>
+            <div>
+                <fa-surface fa-background-color="'green'" fa-pipe-to="vm.eventHandler">
+                    <div class="fa-surface">
+                        page 1
+                    </div>
+                </fa-surface>
+            </div>
+        </fa-modifier>
+    </xfa-slide>
+    <xfa-slide>
+        <fa-modifier>
+            <div>
+                <fa-surface fa-background-color="'orange'" fa-pipe-to="vm.eventHandler">
+                    <div class="fa-surface">
+                        page 2
+                    </div>
+                </fa-surface>
+            </div>
+        </fa-modifier>
+    </xfa-slide>
+    <xfa-slide>
+        <fa-modifier class="ng-scope">
+            <div>
+                <fa-surface fa-background-color="'red'" fa-pipe-to="vm.eventHandler">
+                    <div>
+                        page 3
+                    </div>
+                </fa-surface>
+            </div>
+        </fa-modifier>
+    </xfa-slide>
+</fa-scroll-view>
+

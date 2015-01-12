@@ -1,0 +1,11 @@
+{
+  "generator-angular-famous-ionic": {
+    "appname": "famousDirective",
+    "clientFolder": "client",
+    "ionic": false,
+    "famous": true,
+    "ngCordova": false,
+    "fontawesome": false,
+    "bootstrap": false
+  }
+}
