@@ -8,7 +8,7 @@ module.exports = function(app) {
     function service($famous) {
         var Scrollview = $famous['famous/views/Scrollview'];
         var apply = function() {
-console.log('famousOverrides');
+
             Scrollview.prototype.getAbsolutePosition = function getAbsolutePosition() {
                 if(!this._node) {
                     return 0;
