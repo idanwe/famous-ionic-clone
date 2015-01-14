@@ -15,7 +15,7 @@ module.exports = function(app) {
         vm.distance = function(index) {
             var retVal = vm.ctrlSlideBox.distance(index);
             return retVal;
-        }
+        };
 
         vm.markerOpacity = $timeline([
             [-1, 0.3],

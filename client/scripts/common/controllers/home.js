@@ -14,15 +14,14 @@ module.exports = function(app) {
         }, {
             title: 'page 2',
             color: 'red'
-        },
-        {
+        }, {
             title: 'page 3',
             color: 'green'
-        },
-        {
+        }, {
             title: 'page 4',
             color: 'yellow'
         }];
+
     }
 
     controller.$inject = deps;

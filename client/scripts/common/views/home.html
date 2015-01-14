@@ -1,5 +1,5 @@
-<fa-slide-box show-pager="false">
-    <fa-slide ng-repeat="page in vm.pages">
+<fa-slide-box show-pager="true" animated="true" pipe-to="vm.eventHandler">
+    <fa-slide ng-repeat="page in vm.pages"> -->
         <fa-modifier>
             <fa-surface fa-background-color="page.color">{{page.title}}</fa-surface>
         </fa-modifier>
