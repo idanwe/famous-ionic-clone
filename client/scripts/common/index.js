@@ -13,24 +13,29 @@ module.exports = function(namespace) {
     var app = angular.module(fullname, ['ui.router', 'famous.angular', famous.name]);
     // inject:folders start
     require('./controllers')(app);
-    
     // inject:folders end
 
     app.config(['$stateProvider', '$urlRouterProvider',
         function($stateProvider, $urlRouterProvider) {
             $urlRouterProvider.otherwise('/');
             $stateProvider.state('home', {
-                url: '/',
-                template: require('./views/home.html'),
-                controller: fullname + '.home',
-                controllerAs: 'vm'
-            });
-            $stateProvider.state('test', {
-                url: '/play',
-                template: require('./views/play.html'),
-                controller: fullname + '.play',
-                controllerAs: 'vm'
-            });
+                    url: '/',
+                    template: require('./views/home.html'),
+                    controller: fullname + '.home',
+                    controllerAs: 'vm'
+                })
+                .state('test', {
+                    url: '/play',
+                    template: require('./views/play.html'),
+                    controller: fullname + '.play',
+                    controllerAs: 'vm'
+                })
+                .state('tabs', {
+                    url: '/tabs',
+                    template: require('./views/tabs.html'),
+                    controller: fullname + '.tabs',
+                    controllerAs: 'vm'
+                });
         }
     ]);
 

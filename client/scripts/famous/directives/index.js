@@ -5,5 +5,8 @@ module.exports = function(app) {
     require('./faPager')(app);
     require('./faSlide')(app);
     require('./faSlideBox')(app);
+    require('./faTab')(app);
+    require('./faTabHeader')(app);
+    require('./faTabs')(app);
     // inject:end
 };

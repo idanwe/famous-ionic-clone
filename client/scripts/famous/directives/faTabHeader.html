@@ -1,0 +1,7 @@
+<fa-modifier fa-size="[undefined, 50]">
+    <fa-grid-layout fa-options="{dimensions:[ctrl.tabs.length,1]}">
+        <fa-surface fa-background-color="'green'" ng-repeat="tab in ctrl.tabs" fa-background-color="tab.color" fa-click="ctrl.setActiveTab($index)">
+            {{tab.title}}
+        </fa-surface>
+    </fa-grid-layout>
+</fa-modifier>
