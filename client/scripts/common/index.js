@@ -35,6 +35,16 @@ module.exports = function(namespace) {
                     template: require('./views/tabs.html'),
                     controller: fullname + '.tabs',
                     controllerAs: 'vm'
+                }).state('page1', {
+                    url: '/page1',
+                    template: require('./views/page1.html'),
+                    controller: fullname + '.page1',
+                    controllerAs: 'vm'
+                }).state('page2', {
+                    url: '/page2',
+                    template: require('./views/page2.html'),
+                    controller: fullname + '.page2',
+                    controllerAs: 'vm'
                 });
         }
     ]);

@@ -1,7 +1,7 @@
 <fa-modifier fa-size="[undefined, 50]">
-    <fa-grid-layout fa-options="{dimensions:[ctrl.tabs.length,1]}">
-        <fa-surface fa-background-color="'green'" ng-repeat="tab in ctrl.tabs" fa-background-color="tab.color" fa-click="ctrl.setActiveTab($index)">
-            {{tab.title}}
+    <fa-grid-layout fa-options="{dimensions:[ctrl.ctrlTabs.tabs.length,1]}">
+        <fa-surface ng-class="ctrl.ctrlTabs.class" ng-repeat="tab in ctrl.ctrlTabs.tabs" fa-background-color="tab.color" fa-click="ctrl.setActiveTab($index)">
+            <div class="tab-item"> {{tab.title}}</div>
         </fa-surface>
     </fa-grid-layout>
 </fa-modifier>

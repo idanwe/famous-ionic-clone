@@ -1,36 +1,12 @@
-<!-- <fa-view>
-    <fa-sequential-layout>
-        <fa-modifier fa-size="[undefined, 50]">
-            <fa-grid-layout fa-options="{dimensions:[3,1]}">
-                <fa-surface fa-background-color="'red'" fa-click="vm.setActiveTab(0)">
-                    View 1
-                </fa-surface>
-                <fa-surface fa-background-color="'green'" fa-click="vm.setActiveTab(1)">
-                    View 2
-                </fa-surface>
-                <fa-surface fa-background-color="'blue'" fa-click="vm.setActiveTab(2)">
-                    View 3
-                </fa-surface>
-            </fa-grid-layout>
-        </fa-modifier>
-        <fa-modifier>
-            <fa-modifier fa-translate="vm.translate1(vm.transition.get())">
-                <fa-surface fa-background-color="'red'"> View 1 Content</fa-surface>
-            </fa-modifier>
-            <fa-modifier fa-translate="vm.translate2(vm.transition.get())">
-                <fa-surface fa-background-color="'green'"> View 2 Content</fa-surface>
-            </fa-modifier>
-            <fa-modifier fa-translate="vm.translate3(vm.transition.get())">
-                <fa-surface fa-background-color="'blue'"> View 3 Content</fa-surface>
-            </fa-modifier>
-        </fa-modifier>
-    </fa-sequential-layout>
-</fa-view>
- -->
-
-<fa-tabs>
+<fa-tabs class="tabs tabs-top {{vm.class}}">
     <fa-tab title="Home" icon-on="ion-ios7-filing" icon-off="ion-ios7-filing-outline">
-        <fa-surface fa-background-color="'red'"> View 1</fa-surface>
+        <fa-surface>
+            <div class="card">
+                <div class="item item-text-wrap">
+                    This is a basic Card which contains an item that has wrapping text.
+                </div>
+            </div>
+        </fa-surface>
     </fa-tab>
     <fa-tab title="About" icon-on="ion-ios7-clock" icon-off="ion-ios7-clock-outline">
         <fa-surface fa-background-color="'green'"> View 2 </fa-surface>
@@ -41,5 +17,10 @@
     <fa-tab title="Test" icon-on="ion-ios7-gear" icon-off="ion-ios7-gear-outline">
         <fa-surface fa-background-color="'yellow'"> View 3</fa-surface>
     </fa-tab>
-
 </fa-tabs>
+
+<fa-modifier fa-size="[200,80]" fa-align="[0,1]" fa-origin="[0,1]">
+    <fa-surface fa-z-index="1" ng-click="vm.changeColor()">
+        <div class="button button-energized">Change Color</div>
+    </fa-surface>
+</fa-modifier>

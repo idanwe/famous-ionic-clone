@@ -1,3 +1,4 @@
-<fa-scroll-view id="{{ctrl.id}}" fa-options="{direction:0, paginated:true}">
+<fa-scroll-view id="{{faSlideBoxCtrl.id}}" fa-options="{direction:0, paginated:true}">
     <ng-transclude></ng-transclude>
 </fa-scroll-view>
+<fa-pager ng-if="faSlideBoxCtrl.showPager"></fa-pager>

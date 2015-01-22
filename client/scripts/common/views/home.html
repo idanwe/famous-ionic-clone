@@ -1,7 +1,31 @@
-<fa-slide-box show-pager="true" animated="true" pipe-to="vm.eventHandler">
-    <fa-slide ng-repeat="page in vm.pages"> -->
-        <fa-modifier>
-            <fa-surface fa-background-color="page.color">{{page.title}}</fa-surface>
-        </fa-modifier>
-    </fa-slide>
-</fa-slide-box>
+<fa-modifier ffa-size="[200,200]">
+    <fa-slide-box show-pager="vm.showPager" animated="vm.animated" pipe-to="vm.eventHandler">
+        <fa-slide ng-repeat="page in vm.pages">
+            <fa-modifier>
+                <fa-surface ffa-background-color="page.color">
+                    <div class="list card">
+                        <div class="item item-avatar">
+                            <img src="http://tutupash.com/site/assets/nin_logo.jpeg">
+                            <h2>{{page.title}}</h2>
+                            <p>Nine Inch Nails</p>
+                        </div>
+
+                        <div class="item item-image">
+                            <img src="http://ecx.images-amazon.com/images/I/41D5vU4I1NL.jpg">
+                        </div>
+
+                        <a class="item item-icon-left assertive" href="#">
+                            <i class="icon ion-music-note"></i> Start listening
+                        </a>
+
+                    </div>
+                </fa-surface>
+            </fa-modifier>
+        </fa-slide>
+    </fa-slide-box>
+</fa-modifier>
+<fa-modifier fa-size="[150,50]" fa-align="[0.5,1]" fa-origin="[0.5,1]">
+    <fa-surface fa-z-index="1" ng-click="vm.addPage()">
+        <div class="button button-royal">Add Page</div>
+    </fa-surface>
+</fa-modifier>

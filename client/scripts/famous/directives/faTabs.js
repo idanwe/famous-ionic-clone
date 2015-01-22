@@ -40,6 +40,9 @@ module.exports = function(app) {
                 return {
                     pre: function(scope, element, attrs, ctrl) {
                         ctrl.tabs = tabs;
+                        ctrl.currentTab = 0;
+                        ctrl.class = attrs.class;
+
                     },
                     post: function(scope, element, attrs, ctrl) {
 

@@ -8,10 +8,9 @@ module.exports = function(app) {
     var controller = function() {
         var vm = this;
         vm.setActiveTab = function(index) {
-            vm.transition.set(index, {
-                duration: 200
-            });
+            vm.ctrlTabs.currentTab = index;
         };
+
     };
     controller.$inject = controllerDeps;
 
@@ -27,12 +26,11 @@ module.exports = function(app) {
             template: require('./faTabHeader.html'),
             compile: function(element, attrs) {
                 return {
-                    pre: function(scope, element, attrs) {
-
+                    pre: function(scope, element, attrs, ctrlTabs) {
+                        scope.ctrl.ctrlTabs = ctrlTabs;
                     },
                     post: function(scope, element, attrs, ctrlTabs) {
-                        scope.ctrl.tabs = ctrlTabs.tabs;
-                        scope.ctrl.transition = ctrlTabs.transition;
+
                     }
                 };
             }

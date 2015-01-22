@@ -8,72 +8,83 @@ module.exports = function(app) {
     var controllerDeps = ['$famous', '$timeout', '$attrs', '$scope'];
     var controller = function($famous, $timeout, $attrs, $scope) {
         var vm = this;
-        // var GenericSync = $famous['famous/inputs/GenericSync'];
-        // var MouseSync = $famous['famous/inputs/MouseSync'];
-        // var TouchSync = $famous['famous/inputs/TouchSync'];
-        // var ScrollSync = $famous['famous/inputs/ScrollSync'];
         var EventHandler = $famous['famous/core/EventHandler'];
-
-        // GenericSync.register({
-        //     'mouse': MouseSync,
-        //     'touch': TouchSync,
-        //     'scroll': ScrollSync
-        // });
-        // vm.sync = new GenericSync(['mouse', 'touch'], {
-        //     direction: 0
-        // });
-
         vm.eventHandler = new EventHandler();
-        //vm.eventHandler.pipe(vm.sync);
-        vm.id = randomstring.generate(5);
+
+
+
+        //vm.id = 'scrollview_' + randomstring.generate(5);
         vm.slidesCount = 0;
 
-        vm.getSlideboxScrollView = function() {
-            if(!vm.slideboxScrollView) {
-                vm.slideboxScrollView = $famous.find('fa-scroll-view')[0].renderNode; //famousHelper.getRenderNode(vm.slideboxScrollView, '#slideboxScrollView');
-                vm.surface = $famous.find('fa-surface')[0].renderNode;
+        // var getSlideboxScrollView = function() {
+        //     if(!vm.slideboxScrollView) {
+        //         vm.slideboxScrollView = $famous.find('#' + vm.id)[0].renderNode;
+        //     }
+        //     return vm.slideboxScrollView;
+        // };
+
+        var getScrollLength = function() {
+            if(vm.slideboxScrollView) {
+                return vm.slideboxScrollView._scroller._contextSize[vm.slideboxScrollView.options.direction || 0];
             }
-
-            return vm.slideboxScrollView;
-        };
-
-        vm.scrollViewDistance = function(i, width) {
-            var currentIndex = i - vm.getSlideboxScrollView().getAbsolutePosition() / width;
-            return currentIndex;
+            return window.innerWidth;
         };
 
         vm.distance = function(i) {
-            var retVal = vm.scrollViewDistance(i, vm.surface && vm.surface.getSize() ? vm.surface.getSize()[0] : window.innerWidth);
+            var retVal = 0;
+            //var scrollview = getSlideboxScrollView();
+            if(vm.slideboxScrollView) {
+                var length = getScrollLength();
+                retVal = i - vm.slideboxScrollView.getAbsolutePosition() / length;
+            }
             return retVal;
+        };
+
+        vm.setActivePage = function(index) {
+            vm.slideboxScrollView.goToPage(index);
         };
 
     };
     controller.$inject = controllerDeps;
 
     // directive
-    var directiveDeps = ['$compile', '$famous'];
-    var directive = function($compile, $famous) {
+    var directiveDeps = ['$faSlideBoxDelegate'];
+    var directive = function($faSlideBoxDelegate) {
         return {
             restrict: 'E',
             scope: true,
             transclude: true,
             controller: controller,
-            controllerAs: 'ctrl',
+            controllerAs: 'faSlideBoxCtrl',
             bindToController: true,
             template: require('./faSlideBox.html'),
             compile: function(element, attrs, transclude) {
-                element.find('fa-scroll-view').attr('fa-pipe-from', 'ctrl.eventHandler');
+                element.find('fa-scroll-view').attr('fa-pipe-from', 'faSlideBoxCtrl.eventHandler');
                 return {
-                    pre: function(scope, element, attrs) {},
-                    post: function(scope, element, attrs) {
-                        scope.ctrl.animated = scope.$eval(attrs.animated);
+                    pre: function($scope, $element, $attr, faSlideBoxCtrl) {
+                        $scope.$watch(function() {
+                            return $scope.$eval(attrs.animated);
+                        }, function(newvalue) {
+                            faSlideBoxCtrl.animated = newvalue;
+                        });
 
-                        if(scope.$eval(attrs.showPager) !== false) {
-                            var childScope = scope.$new();
-                            var pager = angular.element('<fa-pager></fa-pager>');
-                            element.append(pager);
-                            $compile(pager)(childScope);
-                        }
+                        $scope.$watch(function() {
+                            return $scope.$eval(attrs.showPager);
+                        }, function(newvalue) {
+                            faSlideBoxCtrl.showPager = newvalue;
+                        });
+
+                        var deregisterInstance = $faSlideBoxDelegate._registerInstance(
+                            faSlideBoxCtrl, $attr.delegateHandle
+                        );
+
+                        $scope.$on('$destroy', function() {
+                            deregisterInstance();
+                        });
+                    },
+                    post: function(scope, element, attrs, faSlideBoxCtrl) {
+                        var scrollviewScope = element.find('fa-scroll-view').scope();
+                        faSlideBoxCtrl.slideboxScrollView = scrollviewScope.isolate[scrollviewScope.$id].renderNode;
                     }
                 };
             }

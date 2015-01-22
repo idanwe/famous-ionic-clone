@@ -9,35 +9,11 @@ module.exports = function(app) {
     function controller($timeline, $famous, $window) {
         var vm = this;
 
-        var Transitionable = $famous['famous/transitions/Transitionable'];
+        vm.class = 'tabs-royal';
 
-        vm.transition = new Transitionable(0);
-
-        vm.setActiveTab = function(value) {
-            vm.transition.set(value, {
-                duration: 300
-            });
+        vm.changeColor = function() {
+            vm.class = 'tabs-assertive';
         };
-
-        var innerWidth = $window.innerWidth;
-
-        vm.translate1 = $timeline([
-            [0, [0, 0]],
-            [1, [-innerWidth, 0]],
-            [2, [-innerWidth, 0]]
-        ]);
-
-        vm.translate2 = $timeline([
-            [0, [innerWidth, 0]],
-            [1, [0, 0]],
-            [2, [-innerWidth, 0]]
-        ]);
-
-        vm.translate3 = $timeline([
-            [0, [innerWidth, 0]],
-            [1, [innerWidth, 0]],
-            [2, [0, 0]]
-        ]);
     }
 
     controller.$inject = deps;

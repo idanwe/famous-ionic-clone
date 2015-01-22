@@ -4,46 +4,47 @@ var _ = require('lodash');
 module.exports = function(app) {
 
     // controller
-    var controllerDeps = ['$timeline'];
-    var controller = function($timeline) {
-
-        var vm = this;
-        vm.numSlides = function() {
-            return new Array(vm.ctrlSlideBox.slidesCount);
-        };
-
-        vm.distance = function(index) {
-            var retVal = vm.ctrlSlideBox.distance(index);
-            return retVal;
-        };
-
-        vm.markerOpacity = $timeline([
-            [-1, 0.3],
-            [0, 1],
-            [1, 0.3]
-        ]);
-
-        vm.markerScale = $timeline([
-            [-1, [0.8, 0.8]],
-            [0, [1, 1]],
-            [1, [0.8, 0.8]]
-        ]);
+    var controllerDeps = [];
+    var controller = function() {
 
     };
     controller.$inject = controllerDeps;
 
     // directive
-    var directiveDeps = [];
-    var directive = function() {
+    var directiveDeps = ['$timeline'];
+    var directive = function($timeline) {
         return {
             restrict: 'E',
             controller: controller,
-            controllerAs: 'ctrl',
+            controllerAs: 'faPagerCtrl',
             bindToController: true,
-            require: '^faSlideBox',
+            require: ['^faSlideBox', 'faPager'],
             template: require('./faPager.html'),
-            link: function(scope, element, attrs, ctrlSlideBox) {
-                scope.ctrl.ctrlSlideBox = ctrlSlideBox;
+            compile: function(scope, element, attrs) {
+                return {
+                    pre: function($scope, $element, $attr, ctrls) {
+                        var faSlideBoxCtrl = ctrls[0];
+                        var faPagerCtrl = ctrls[1];
+
+                        faPagerCtrl.numSlides = function() {
+                            return new Array(faSlideBoxCtrl.slidesCount);
+                        };
+
+                        faPagerCtrl.markerOpacity = $timeline([
+                            [-1, 0.3],
+                            [0, 1],
+                            [1, 0.3]
+                        ]);
+
+                        faPagerCtrl.markerScale = $timeline([
+                            [-1, [0.6, 0.6]],
+                            [0, [1, 1]],
+                            [1, [0.6, 0.6]]
+                        ]);
+
+                    },
+                    post: function($scope, $element, $attr) {}
+                };
             }
         };
     };

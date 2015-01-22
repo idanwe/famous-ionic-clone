@@ -4,23 +4,29 @@ var controllername = 'home';
 module.exports = function(app) {
     /*jshint validthis: true */
 
-    var deps = ['$famous'];
+    var _ = require('lodash');
+    var deps = ['$faSlideBoxDelegate'];
 
-    function controller($famous) {
+    function controller($faSlideBoxDelegate) {
         var vm = this;
-        vm.pages = [{
-            title: 'page 1',
-            color: 'purple'
-        }, {
-            title: 'page 2',
-            color: 'red'
-        }, {
-            title: 'page 3',
-            color: 'green'
-        }, {
-            title: 'page 4',
-            color: 'yellow'
-        }];
+        vm.pages = _.map(_.range(3), function(i) {
+            return {
+                title: 'page ' + i
+            };
+        });
+
+        vm.showPager = true;
+        vm.animated = false;
+
+        vm.setActivePage = function() {
+            $faSlideBoxDelegate.setActivePage(2);
+        };
+
+        vm.addPage = function() {
+            vm.pages.push({
+                title: 'page ' + vm.pages.length
+            });
+        };
 
     }
 

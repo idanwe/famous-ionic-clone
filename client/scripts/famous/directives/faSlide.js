@@ -3,14 +3,8 @@ var directivename = 'faSlide';
 
 module.exports = function(app) {
     // controller
-    var controllerDeps = ['$timeline'];
-    var controller = function($timeline) {
-        var vm = this;
-
-        vm.distance = function(index) {
-            var retVal = vm.ctrlSlideBox.distance(vm.currentIndex);
-            return retVal;
-        };
+    var controllerDeps = [];
+    var controller = function() {
 
     };
     controller.$inject = controllerDeps;
@@ -21,53 +15,60 @@ module.exports = function(app) {
         return {
             restrict: 'E',
             controller: controller,
-            controllerAs: 'ctrl',
-            require: '^faSlideBox',
+            controllerAs: 'faSlideCtrl',
+            require: ['^faSlideBox', 'faSlide'],
             scope: true,
             bindToController: true,
             compile: function(element, attrs, transclude) {
-
                 var surface = element.find('fa-surface');
-                surface.attr('fa-pipe-to', 'ctrl.eventHandler');
+
+                surface.attr('fa-pipe-to', 'faSlideBoxCtrl.eventHandler');
+                surface.attr('fa-z-index', 'faSlideCtrl.getZIndex()');
                 element[0].innerHTML = require('./faSlide.html').replace('<ng-transclude></ng-transclude>', element[0].innerHTML);
 
                 return {
+                    pre: function($scope, $element, $attr, ctrls) {
+                        var faSlideBoxCtrl = ctrls[0];
+                        var faSlideCtrl = ctrls[1];
+                        faSlideCtrl.currentIndex = faSlideBoxCtrl.slidesCount;
+                        faSlideBoxCtrl.slidesCount += 1;
 
-                    pre: function(scope, element, attrs) {
+                        if(faSlideBoxCtrl.animated) {
+                            faSlideCtrl.translate = $timeline([
+                                [-1, [0, 30]],
+                                [0, [0, 30]],
+                                [10, [-320 * 10, -30 * 10]]
+                            ]);
+
+                            faSlideCtrl.scale = $timeline([
+                                [-1, [1, 1]],
+                                [0, [1, 1]],
+                                [10, [0.09, 0.09]]
+                            ]);
+
+                            // faSlideCtrl.rotate = $timeline([
+                            //     [-1, -Math.PI / 10],
+                            //     [0, 0],
+                            //     [1, Math.PI / 10]
+                            // ]);
+                        }
+                        faSlideCtrl.getZIndex = function() {
+                            return faSlideBoxCtrl.slidesCount - faSlideCtrl.currentIndex;
+                        };
+
+                        faSlideCtrl.distance = function() {
+                            return faSlideBoxCtrl.distance(faSlideCtrl.currentIndex);
+                        };
 
                     },
-                    post: function(scope, element, attrs, ctrlSlideBox) {
+                    post: function($scope, $element, $attr) {
 
-                        scope.ctrl.eventHandler = ctrlSlideBox.eventHandler;
-                        scope.ctrl.currentIndex = ctrlSlideBox.slidesCount;
-                        scope.ctrl.ctrlSlideBox = ctrlSlideBox;
-
-                        ctrlSlideBox.slidesCount += 1;
-
-                        if(ctrlSlideBox.animated) {
-                            scope.ctrl.translate = $timeline([
-                                [-1, [50, 100]],
-                                [0, [0, 0.8]],
-                                [1, [-50, -30]]
-                            ]);
-
-                            scope.ctrl.scale = $timeline([
-                                [-1, [0.7, 0.7]],
-                                [0, [0.8, 0.8]],
-                                [1, [0.7, 0.7]]
-                            ]);
-
-                            scope.ctrl.rotate = $timeline([
-                                [-1, -Math.PI / 10],
-                                [0, 0],
-                                [1, Math.PI / 10]
-                            ]);
-                        }
                     }
                 };
             }
         };
     };
+
     directive.$inject = directiveDeps;
 
     app.directive(directivename, directive);
