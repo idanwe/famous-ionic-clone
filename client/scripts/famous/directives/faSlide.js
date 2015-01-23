@@ -1,6 +1,6 @@
 'use strict';
 var directivename = 'faSlide';
-
+var angular = require('angular');
 module.exports = function(app) {
     // controller
     var controllerDeps = [];
@@ -22,6 +22,10 @@ module.exports = function(app) {
             compile: function(element, attrs, transclude) {
                 var surface = element.find('fa-surface');
 
+                if(surface.length <= 0) {
+                    element[0].innerHTML = '<fa-surface>' + angular.element(element[0]).html() + '</fa-surface>';
+                    surface = element.find('fa-surface');
+                }
                 surface.attr('fa-pipe-to', 'faSlideBoxCtrl.eventHandler');
                 surface.attr('fa-z-index', 'faSlideCtrl.getZIndex()');
                 element[0].innerHTML = require('./faSlide.html').replace('<ng-transclude></ng-transclude>', element[0].innerHTML);

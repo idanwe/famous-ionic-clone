@@ -3,35 +3,32 @@
 var angular = require('angular-mocks');
 var app = require('../')('app');
 var directivename = 'faNavView';
+var unitHelper = require('unitHelper');
 describe(app.name, function() {
 
     describe('Directives', function() {
 
         describe(directivename, function() {
 
-            var compileDirective = function(html) {
-                var element = angular.element(html);
-                this.$compile(element)(this.$scope);
-                this.$scope.$digest();
-                this.controller = element.controller(directivename);
-                this.scope = element.isolateScope() || element.scope();
-                return element;
-            };
-
             beforeEach(function() {
                 angular.mock.module(app.name);
             });
 
+            afterEach(function() {
+                unitHelper.cleanDocument();
+            });
+
             beforeEach(inject(function($injector) {
+                this.$controller = $injector.get('$controller');
                 this.$templateCache = $injector.get('$templateCache');
                 this.$compile = $injector.get('$compile');
                 this.$scope = $injector.get('$rootScope').$new();
-                this.$scope.vm = {};
             }));
 
             it('should succeed', function() {
-                var element = compileDirective.call(this, '<fa-nav-view></fa-nav-view>');
-                expect(element.html().trim()).toBe('This is directive : fa-nav-view');
+                this.$scope.myController = angular.noop;
+                var element = unitHelper.compileDirective.call(this, directivename, '<fa-nav-view ng-controller="myController"></fa-nav-view>');
+                expect(element.html().trim()).toBeDefined();
             });
 
         });

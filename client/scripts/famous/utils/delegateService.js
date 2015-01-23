@@ -1,3 +1,7 @@
+//jscs:disable
+/* jshint ignore:start */
+/*eslint-disable */
+
 'use strict';
 
 module.exports = function(methodNames) {
@@ -99,3 +103,5 @@ module.exports = function(methodNames) {
 
     }];
 };
+/*eslint-enable */
+/* jshint ignore:end */

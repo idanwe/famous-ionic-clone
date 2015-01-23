@@ -5,13 +5,11 @@ var randomstring = require('randomstring');
 module.exports = function(app) {
 
     // controller
-    var controllerDeps = ['$famous', '$timeout', '$attrs', '$scope'];
-    var controller = function($famous, $timeout, $attrs, $scope) {
+    var controllerDeps = ['$famous', '$scope'];
+    var controller = function($famous, $scope) {
         var vm = this;
         var EventHandler = $famous['famous/core/EventHandler'];
         vm.eventHandler = new EventHandler();
-
-
 
         //vm.id = 'scrollview_' + randomstring.generate(5);
         vm.slidesCount = 0;
@@ -61,24 +59,24 @@ module.exports = function(app) {
             compile: function(element, attrs, transclude) {
                 element.find('fa-scroll-view').attr('fa-pipe-from', 'faSlideBoxCtrl.eventHandler');
                 return {
-                    pre: function($scope, $element, $attr, faSlideBoxCtrl) {
-                        $scope.$watch(function() {
-                            return $scope.$eval(attrs.animated);
+                    pre: function(scope, $element, attrs, faSlideBoxCtrl) {
+                        scope.$watch(function() {
+                            return scope.$eval(attrs.animated);
                         }, function(newvalue) {
                             faSlideBoxCtrl.animated = newvalue;
                         });
 
-                        $scope.$watch(function() {
-                            return $scope.$eval(attrs.showPager);
+                        scope.$watch(function() {
+                            return scope.$eval(attrs.showPager);
                         }, function(newvalue) {
                             faSlideBoxCtrl.showPager = newvalue;
                         });
 
                         var deregisterInstance = $faSlideBoxDelegate._registerInstance(
-                            faSlideBoxCtrl, $attr.delegateHandle
+                            faSlideBoxCtrl, attrs.delegateHandle
                         );
 
-                        $scope.$on('$destroy', function() {
+                        scope.$on('$destroy', function() {
                             deregisterInstance();
                         });
                     },

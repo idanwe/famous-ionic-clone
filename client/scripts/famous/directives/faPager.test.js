@@ -3,20 +3,13 @@
 var angular = require('angular-mocks');
 var app = require('../')('app');
 var directivename = 'faPager';
+var unitHelper = require('unitHelper');
+
 describe(app.name, function() {
 
     describe('Directives', function() {
 
         describe(directivename, function() {
-
-            var compileDirective = function(html) {
-                var element = angular.element(html);
-                this.$compile(element)(this.$scope);
-                this.$scope.$digest();
-                this.controller = element.controller(directivename);
-                this.scope = element.isolateScope() || element.scope();
-                return element;
-            };
 
             beforeEach(function() {
                 angular.mock.module(app.name);
@@ -30,10 +23,9 @@ describe(app.name, function() {
             }));
 
             it('should succeed', function() {
-                var element = compileDirective.call(this, '<fa-pager></fa-pager>');
-                expect(element.html().trim()).toBe('This is directive : fa-pager');
+                var element = unitHelper.compileDirective.call(this, directivename, '<fa-slide-box><fa-pager></fa-pager></fa-slide-box>fa-slide-box>');
+                expect(element.html().trim()).toBeDefined();
             });
-
         });
     });
 });

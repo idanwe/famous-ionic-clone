@@ -1,7 +1,7 @@
 'use strict';
 var angular = require('angular-mocks');
 var app = require('../')('app');
-var servicename = 'faTestDelegate';
+var servicename = '$faTestDelegate';
 describe(app.name, function() {
 
     describe('Services', function() {
@@ -13,7 +13,7 @@ describe(app.name, function() {
             });
 
             beforeEach(inject(function($injector) {
-                this.service = $injector.get(app.name + '.' + servicename);
+                this.service = $injector.get(servicename);
             }));
 
             it('should be defined', function() {
