@@ -10,8 +10,8 @@ module.exports = function(app) {
     controller.$inject = controllerDeps;
 
     // directive
-    var directiveDeps = ['$famous', '$timeline'];
-    var directive = function($famous, $timeline) {
+    var directiveDeps = [];
+    var directive = function() {
         return {
             restrict: 'E',
             controller: controller,
@@ -37,25 +37,6 @@ module.exports = function(app) {
                         faSlideCtrl.currentIndex = faSlideBoxCtrl.slidesCount;
                         faSlideBoxCtrl.slidesCount += 1;
 
-                        if(faSlideBoxCtrl.animated) {
-                            faSlideCtrl.translate = $timeline([
-                                [-1, [0, 30]],
-                                [0, [0, 30]],
-                                [10, [-320 * 10, -30 * 10]]
-                            ]);
-
-                            faSlideCtrl.scale = $timeline([
-                                [-1, [1, 1]],
-                                [0, [1, 1]],
-                                [10, [0.09, 0.09]]
-                            ]);
-
-                            // faSlideCtrl.rotate = $timeline([
-                            //     [-1, -Math.PI / 10],
-                            //     [0, 0],
-                            //     [1, Math.PI / 10]
-                            // ]);
-                        }
                         faSlideCtrl.getZIndex = function() {
                             return faSlideBoxCtrl.slidesCount - faSlideCtrl.currentIndex;
                         };

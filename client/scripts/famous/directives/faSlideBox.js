@@ -5,8 +5,8 @@ var randomstring = require('randomstring');
 module.exports = function(app) {
 
     // controller
-    var controllerDeps = ['$famous', '$scope'];
-    var controller = function($famous, $scope) {
+    var controllerDeps = ['$famous', '$timeline', '$scope'];
+    var controller = function($famous, $timeline, $scope) {
         var vm = this;
         var EventHandler = $famous['famous/core/EventHandler'];
         vm.eventHandler = new EventHandler();
@@ -42,6 +42,76 @@ module.exports = function(app) {
             vm.slideboxScrollView.goToPage(index);
         };
 
+        vm.getAnimationType = function() {
+            return vm.animationType;
+        };
+
+        vm.setAnimationType = function(type) {
+            vm.animationType = type;
+        };
+
+        vm.setAnimation = function() {
+            if(vm.animated) {
+
+                switch(vm.animationType) {
+                    case 'type1':
+                        vm.slideTranslate = $timeline([
+                            [-1, [0, 30]],
+                            [0, [0, 30]],
+                            [10, [-320 * 10, -30 * 10]]
+                        ]);
+
+                        vm.slideScale = $timeline([
+                            [-1, [1, 1]],
+                            [0, [1, 1]],
+                            [10, [0.09, 0.09]]
+                        ]);
+                        break;
+
+                    case 'type2':
+                        vm.slideTranslate = $timeline([
+                            [-1, [-40, 100]],
+                            [0, [0, 0]],
+                            [1, [60, 0]]
+                        ]);
+
+                        vm.slideScale = $timeline([
+                            [-1, [0.7, 0.7]],
+                            [0, [0.8, 0.8]],
+                            [1, [0.7, 0.7]]
+                        ]);
+
+                        vm.slideOpacity = $timeline([
+                            [-1, 0.8],
+                            [0, 1],
+                            [1, 0.8]
+                        ]);
+
+                        vm.slideRotate = $timeline([
+                            [-1, -Math.PI / 10],
+                            [0, 0],
+                            [1, Math.PI / 10]
+                        ]);
+                        break;
+
+                    default:
+                        vm.slideTranslate = $timeline([
+                            [0, [0, 0]]
+                        ]);
+
+                        vm.slideScale = $timeline([
+                            [0, [1, 1]]
+                        ]);
+
+                        vm.slideRotate = $timeline([
+                            [0, 0]
+                        ]);
+                        break;
+                }
+
+            }
+        };
+
     };
     controller.$inject = controllerDeps;
 
@@ -64,6 +134,13 @@ module.exports = function(app) {
                             return scope.$eval(attrs.animated);
                         }, function(newvalue) {
                             faSlideBoxCtrl.animated = newvalue;
+                        });
+
+                        scope.$watch(function() {
+                            return scope.$eval(attrs.animationType);
+                        }, function(newvalue) {
+                            faSlideBoxCtrl.animationType = newvalue;
+                            faSlideBoxCtrl.setAnimation();
                         });
 
                         scope.$watch(function() {

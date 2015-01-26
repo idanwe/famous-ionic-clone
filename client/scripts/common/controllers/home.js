@@ -9,14 +9,14 @@ module.exports = function(app) {
 
     function controller($faSlideBoxDelegate) {
         var vm = this;
-        vm.pages = _.map(_.range(3), function(i) {
+        vm.pages = _.map(_.range(10), function(i) {
             return {
                 title: 'page ' + i
             };
         });
 
         vm.showPager = true;
-        vm.animated = false;
+        vm.animated = true;
 
         vm.setActivePage = function() {
             $faSlideBoxDelegate.setActivePage(2);
@@ -27,6 +27,8 @@ module.exports = function(app) {
                 title: 'page ' + vm.pages.length
             });
         };
+
+        vm.animationType = 'type2';
 
     }
 
